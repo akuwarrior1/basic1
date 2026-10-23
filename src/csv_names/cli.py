@@ -47,6 +47,25 @@ def build_parser() -> argparse.ArgumentParser:
     return parser
 
 
+def _write(line: Optional[str]) -> bool:
+    """Print ``line`` (or just flush when ``None``); return False if stdout's reader has gone away.
+
+    That happens with e.g. ``csv-names big.csv | head``. POSIX raises
+    BrokenPipeError, while Windows raises OSError(EINVAL), so any write
+    error is treated as the reader closing rather than as a failure.
+    """
+    try:
+        if line is None:
+            sys.stdout.flush()
+        else:
+            print(line)
+    except OSError:
+        # Point stdout at devnull so the interpreter's final flush doesn't raise again.
+        os.dup2(os.open(os.devnull, os.O_WRONLY), sys.stdout.fileno())
+        return False
+    return True
+
+
 def main(argv: Optional[List[str]] = None) -> int:
     """Run the CLI and return a process exit code (0 on success, 1 on error)."""
     args = build_parser().parse_args(argv)
@@ -59,11 +78,11 @@ def main(argv: Optional[List[str]] = None) -> int:
             skip_blank=not args.keep_blank,
             encoding=args.encoding,
         ):
-            print(name.format(args.template))
-    except BrokenPipeError:  # e.g. `csv-names big.csv | head`; must precede OSError
-        # Point stdout at devnull so the interpreter's final flush doesn't raise again.
-        os.dup2(os.open(os.devnull, os.O_WRONLY), sys.stdout.fileno())
-        return 0
+            line = name.format(args.template)
+            if not _write(line):
+                return 0
+        if not _write(None):
+            return 0
     except (CsvNamesError, OSError, UnicodeDecodeError, csv.Error) as exc:
         print(f"csv-names: error: {exc}", file=sys.stderr)
         return 1
