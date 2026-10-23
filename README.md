@@ -41,7 +41,7 @@ B. Lachaize
 - **Excel-friendly.** The UTF-8 byte-order mark that Excel writes is removed automatically.
 - **Clear errors.** A missing column raises `MissingColumnError`, and the message lists the columns the file actually has.
 - **Typed.** Ships `py.typed` and passes `mypy --strict`.
-- **No dependencies.** Uses only the standard library and supports Python 3.9 and newer.
+- **No dependencies.** Uses only the standard library and supports Python 3.10 and newer.
 
 ## Installation
 
@@ -356,7 +356,7 @@ The library currently expects comma-delimited files. If you need other delimiter
 Each call to `iter_names` uses its own reader, and `Name` is immutable, so separate calls can run in separate threads. Do not share one open file object between threads.
 
 **Which Python versions are supported?**
-CPython 3.9 through 3.13. Every version is tested in CI on Linux, macOS and Windows.
+CPython 3.10 through 3.13. Every version is tested in CI on Linux, macOS and Windows.
 
 ## Development
 

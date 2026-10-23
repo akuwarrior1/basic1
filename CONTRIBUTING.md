@@ -19,7 +19,7 @@ mypy
 ruff check . && ruff format --check .
 ```
 
-All three must pass; CI runs the same checks on Python 3.9–3.13 across Linux, macOS and Windows.
+All three must pass; CI runs the same checks on Python 3.10–3.13 across Linux, macOS and Windows.
 
 - Add tests for any behaviour change.
 - Keep the public API typed and documented with docstrings.

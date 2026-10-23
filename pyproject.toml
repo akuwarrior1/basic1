@@ -7,7 +7,7 @@ name = "csv-names"
 dynamic = ["version"]
 description = "Read and format people's names from CSV files — a tiny, typed, dependency-free library and CLI."
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 license = "MIT"
 license-files = ["LICENSE"]
 authors = [{ name = "Akashdeep Gopinath" }]
@@ -19,7 +19,6 @@ classifiers = [
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3 :: Only",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
@@ -61,8 +60,8 @@ files = ["src"]
 
 [tool.ruff]
 line-length = 110
-target-version = "py39"
+target-version = "py310"
 
 [tool.ruff.lint]
 select = ["E", "F", "W", "I", "B", "UP"]
-ignore = ["UP006", "UP007", "UP035", "UP045"]  # keep typing.List/Union for 3.9 runtime compatibility
+ignore = ["UP006", "UP007", "UP035", "UP045"]  # keep the typing.List/Union/Optional style used throughout
